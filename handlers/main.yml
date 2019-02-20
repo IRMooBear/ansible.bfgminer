@@ -1,0 +1,43 @@
+---
+# handlers file for pi-install-bfgminer
+- name: run bfgminer autogen
+  become: false
+  command: /bin/sh autogen.sh
+  args:
+    chdir: /usr/local/src/bfgminer
+  environment:
+    CFFLAGS: -02
+  when: bfgminer_repo.changed
+- name: configure bfgminer
+  become: false
+  command: ./configure --enable-futurebit --enable-scrypt --disable-sha256d
+  args:
+    chdir: /usr/local/src/bfgminer
+  when: bfgminer_repo.changed
+- name: make bfgminer
+  become: false
+  make:
+    params:
+      NUM_THREADS: ansible_processor_count
+  args:
+    chdir: /usr/local/src/bfgminer
+  when: bfgminer_repo.changed
+- name: install bfgminer
+  become: true
+  make:
+    target: install
+  args:
+    chdir: /usr/local/src/bfgminer
+  when: bfgminer_repo.changed
+- name: run ldconfig to fix stupid linking error that keep popping up
+  command: ldconfig
+  when: bfgminer_repo.changed
+- name: git reset bfgminer repo
+  command:
+  args:
+    chdir: /usr/local/src/bfgminer
+    argv:
+      - git
+      - reset
+      - --hard
+      - origin/moonlander2

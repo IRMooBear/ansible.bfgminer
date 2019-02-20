@@ -1,0 +1,62 @@
+---
+# tasks file for pi-install-bfgminer
+- name: install bfgminer dependencies
+  retries: 3
+  delay: 10
+  apt:
+    state: present
+    name: [
+      'libcurl4-gnutls-dev',
+      'libjansson-dev',
+      'libudev-dev',
+      'libncurses5-dev',
+      'libncursesw5-dev',
+      'libmicrohttpd-dev',
+      'libevent-dev',
+    ]
+- name: clone IRMooBear/bfgminer
+  retries: 3
+  delay: 10
+  git:
+    repo: https://github.com/IRMooBear/bfgminer.git
+    dest: /usr/local/src/bfgminer
+    clone: yes
+    update: yes
+    recursive: yes
+    force: yes
+    version: Moonlander2-1.0.0
+  register: bfgminer_repo
+- debug:
+    var: bfgminer_repo
+- name: set pi user as owner of bfgminer
+  file:
+    path: /usr/local/src/bfgminer
+    owner: pi
+    recurse: true
+  notify:
+    - run bfgminer autogen
+    - configure bfgminer
+    - make bfgminer
+    - install bfgminer
+    - run ldconfig to fix stupid linking error that keep popping up
+    - git reset bfgminer repo
+- meta: flush_handlers
+- name: install bfgminer template
+  template:
+    src: bfgminer.conf.ini
+    dest: /etc/bfgminer.conf
+    mode: 0755
+    backup: yes
+- name: create bfgminer systemctl service
+  template:
+    src: bfgminer.service.ini
+    dest: /lib/systemd/system/bfgminer.service
+    mode: 0755
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+- name: auto start bfgminer
+  systemd:
+    name: bfgminer.service
+    enabled: yes
+  when: bfgminer_autostart
