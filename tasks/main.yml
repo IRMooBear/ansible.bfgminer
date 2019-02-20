@@ -24,7 +24,7 @@
     update: yes
     recursive: yes
     force: yes
-    version: Moonlander2-1.0.0
+    version: "{{ bfgminer_version }}"
   register: bfgminer_repo
 - debug:
     var: bfgminer_repo
@@ -39,7 +39,9 @@
     - make bfgminer
     - install bfgminer
     - run ldconfig to fix stupid linking error that keep popping up
-    - git reset bfgminer repo
+    - git reset bfgminer
+    - git clean bfgminer
+    - git clean bfgminer submodules
 - meta: flush_handlers
 - name: install bfgminer template
   template:

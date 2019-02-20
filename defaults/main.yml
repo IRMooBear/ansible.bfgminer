@@ -7,12 +7,13 @@ bfgminer_autostart: no
 bfgminer_user: irmoobear
 bfgminer_worker: moonlander2
 bfgminer_password: x
+bfgminer_version: Moonlander2-1.0.0
 bfgminer_pools:
   -
     url: stratum+tcp://stratum.aikapool.com:7975
     user: "{{ bfgminer_user }}.{{ bfgminer_worker }}"
-    pass: bfgminer_password
+    pass: "{{ bfgminer_password }}"
   -
     url: stratum+tcp://us.multipool.us:3362
     user: "{{ bfgminer_user }}.{{ bfgminer_worker }}"
-    pass: bfgminer_password
+    pass: "{{ bfgminer_password }}"

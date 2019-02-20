@@ -32,7 +32,7 @@
 - name: run ldconfig to fix stupid linking error that keep popping up
   command: ldconfig
   when: bfgminer_repo.changed
-- name: git reset bfgminer repo
+- name: git reset bfgminer
   command:
   args:
     chdir: /usr/local/src/bfgminer
@@ -40,4 +40,16 @@
       - git
       - reset
       - --hard
-      - origin/moonlander2
+      - "{{ bfgminer_version }}"
+- name: git clean bfgminer
+  command:
+  args:
+    chdir: /usr/local/src/bfgminer
+    argv:
+      - git
+      - clean
+      - -xfd
+- name: git clean bfgminer submodules
+  shell: git submodule foreach --recursive git clean -xfd
+  args:
+    chdir: /usr/local/src/bfgminer
