@@ -1,5 +1,5 @@
 ---
-# handlers file for pi-install-bfgminer
+# handlers file for pi_install_bfgminer
 - name: run bfgminer autogen
   become: false
   command: /bin/sh autogen.sh

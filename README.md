@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IRMooBear/pi-install-bfgminer.svg?branch=master)](https://travis-ci.com/IRMooBear/pi-install-bfgminer)
+[![Build Status](https://travis-ci.com/IRMooBear/pi_install_bfgminer.svg?branch=master)](https://travis-ci.com/IRMooBear/pi_install_bfgminer)
 
 Pi Install BFGMiner
 =========

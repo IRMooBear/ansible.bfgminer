@@ -1,5 +1,5 @@
 ---
-# defaults file for pi-install-bfgminer
+# defaults file for pi_install_bfgminer
 
 bfgminer_request_difficulty: 512
 bfgminer_moonlander2_clock: 600

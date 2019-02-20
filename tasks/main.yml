@@ -1,5 +1,5 @@
 ---
-# tasks file for pi-install-bfgminer
+# tasks file for pi_install_bfgminer
 - name: install bfgminer dependencies
   retries: 3
   delay: 10
