@@ -1,8 +1,6 @@
 ---
 # tasks file for pi_install_bfgminer
 - name: install bfgminer dependencies
-  retries: 3
-  delay: 10
   apt:
     state: present
     name: [
@@ -14,9 +12,11 @@
       'libmicrohttpd-dev',
       'libevent-dev',
     ]
-- name: clone IRMooBear/bfgminer
+  register: result
   retries: 3
   delay: 10
+  until: result.rc == 0
+- name: clone IRMooBear/bfgminer
   git:
     repo: https://github.com/IRMooBear/bfgminer.git
     dest: /usr/local/src/bfgminer
@@ -26,6 +26,9 @@
     force: yes
     version: "{{ bfgminer_version }}"
   register: bfgminer_repo
+  retries: 3
+  delay: 10
+  until: bfgminer_repo.rc == 0
 - debug:
     var: bfgminer_repo
 - name: set pi user as owner of bfgminer
