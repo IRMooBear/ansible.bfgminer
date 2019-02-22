@@ -11,11 +11,12 @@
       'libncursesw5-dev',
       'libmicrohttpd-dev',
       'libevent-dev',
+      'uthash-dev',
     ]
   register: result
   retries: 3
   delay: 10
-  until: result.rc == 0
+  until: not result.failed
 - name: clone IRMooBear/bfgminer
   git:
     repo: https://github.com/IRMooBear/bfgminer.git
@@ -28,7 +29,7 @@
   register: bfgminer_repo
   retries: 3
   delay: 10
-  until: bfgminer_repo.rc == 0
+  until: not bfgminer_repo.failed
 - debug:
     var: bfgminer_repo
 - name: set pi user as owner of bfgminer
@@ -36,16 +37,59 @@
     path: /usr/local/src/bfgminer
     owner: pi
     recurse: true
-  notify:
-    - run bfgminer autogen
-    - configure bfgminer
-    - make bfgminer
-    - install bfgminer
-    - run ldconfig to fix stupid linking error that keep popping up
-    - git reset bfgminer
-    - git clean bfgminer
-    - git clean bfgminer submodules
-- meta: flush_handlers
+- name: run bfgminer autogen
+  become: false
+  command: /bin/sh autogen.sh
+  args:
+    chdir: /usr/local/src/bfgminer
+  environment:
+    CFFLAGS: -02
+  when: bfgminer_repo.changed
+- name: configure bfgminer
+  become: false
+  command: ./configure --enable-futurebit --enable-scrypt --disable-sha256d
+  args:
+    chdir: /usr/local/src/bfgminer
+  when: bfgminer_repo.changed
+- name: make bfgminer
+  become: false
+  make:
+    params:
+      NUM_THREADS: ansible_processor_count
+  args:
+    chdir: /usr/local/src/bfgminer
+  when: bfgminer_repo.changed
+- name: install bfgminer
+  become: true
+  make:
+    target: install
+  args:
+    chdir: /usr/local/src/bfgminer
+  when: bfgminer_repo.changed
+- name: run ldconfig to fix stupid linking error that keep popping up
+  command: ldconfig
+  when: bfgminer_repo.changed
+- name: git reset bfgminer
+  command:
+  args:
+    chdir: /usr/local/src/bfgminer
+    argv:
+      - git
+      - reset
+      - --hard
+      - "{{ bfgminer_version }}"
+- name: git clean bfgminer
+  command:
+  args:
+    chdir: /usr/local/src/bfgminer
+    argv:
+      - git
+      - clean
+      - -xfd
+- name: git clean bfgminer submodules
+  shell: git submodule foreach --recursive git clean -xfd
+  args:
+    chdir: /usr/local/src/bfgminer
 - name: install bfgminer template
   template:
     src: bfgminer.conf.ini
