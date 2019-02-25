@@ -55,7 +55,7 @@
   become: false
   make:
     params:
-      NUM_THREADS: ansible_processor_count
+      NUM_THREADS: "{{ ansible_processor_cores }}"
   args:
     chdir: /usr/local/src/bfgminer
   when: bfgminer_repo.changed
