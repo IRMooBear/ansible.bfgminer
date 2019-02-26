@@ -30,8 +30,6 @@
   retries: 3
   delay: 10
   until: not bfgminer_repo.failed
-- debug:
-    var: bfgminer_repo
 - name: set pi user as owner of bfgminer
   file:
     path: /usr/local/src/bfgminer
