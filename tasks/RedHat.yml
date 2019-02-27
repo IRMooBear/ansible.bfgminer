@@ -1,0 +1,7 @@
+---
+- name: install bfgminer dependencies
+  yum:
+    state: present
+    name: [
+      'git'
+    ]

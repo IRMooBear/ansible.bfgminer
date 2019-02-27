@@ -1,0 +1,56 @@
+---
+- name: run bfgminer autogen
+  become: false
+  command: /bin/sh autogen.sh
+  args:
+    chdir: /usr/local/src/bfgminer
+  environment:
+    CFFLAGS: -02
+- name: configure bfgminer
+  become: false
+  command: ./configure --enable-futurebit --enable-scrypt --disable-sha256d
+  args:
+    chdir: /usr/local/src/bfgminer
+- name: make bfgminer
+  become: false
+  make:
+    params:
+      NUM_THREADS: "{{ ansible_processor_cores }}"
+  args:
+    chdir: /usr/local/src/bfgminer
+- name: install bfgminer
+  become: true
+  make:
+    target: install
+  args:
+    chdir: /usr/local/src/bfgminer
+- name: run ldconfig to fix stupid linking error that keep popping up
+  command: ldconfig
+- name: git reset bfgminer
+  command:
+  args:
+    chdir: /usr/local/src/bfgminer
+    argv:
+      - git
+      - reset
+      - --hard
+      - "{{ bfgminer_version }}"
+- name: git clean bfgminer
+  command:
+  args:
+    chdir: /usr/local/src/bfgminer
+    argv:
+      - git
+      - clean
+      - -xfd
+- name: git clean bfgminer submodules
+  shell: git submodule foreach --recursive git clean -xfd
+  args:
+    chdir: /usr/local/src/bfgminer
+- name: create bfgminer systemctl service
+  template:
+    src: bfgminer.service.ini
+    dest: /lib/systemd/system/bfgminer.service
+    mode: 0755
+  notify:
+    - reload systemd
