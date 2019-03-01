@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IRMooBear/pi_install_bfgminer.svg?branch=master)](https://travis-ci.com/IRMooBear/pi_install_bfgminer)
+[![Build Status](https://travis-ci.com/IRMooBear/install_bfgminer.svg?branch=master)](https://travis-ci.com/IRMooBear/install_bfgminer)
 
 Install BFGMiner on RPI
 =========
@@ -9,10 +9,57 @@ Dependencies
 ----------------
 This role pull my fork of BFGMiner.
 
+Variables
+----------------
+    compile_threads: "{{ ansible_processor_cores }}"
+    
+Number of threads to run during compile.    
+    
+    bfgminer_request_difficulty: 512
+    
+Difficulty setting to use in BFGMiner configuration file template.    
+    
+    bfgminer_moonlander2_clock: 600
+    
+Moonlander's clock setting, default to manufacturer default.    
+    
+    bfgminer_autostart: no
+    
+Whether BFGMiner autostart on systemboot.    
+    
+    bfgminer_user: irmoobear
+    
+Your miner user account name.    
+    
+    
+    bfgminer_worker: moonlander2
+    
+Worker name.    
+    
+    bfgminer_password: x
+    
+Miner account password.    
+    
+    bfgminer_version: Moonlander2-1.0.0
+    
+Git version with Moonlander driver to pull.    
+    
+    bfgminer_pools:
+      -
+        url: stratum+tcp://stratum.aikapool.com:7975
+        user: "{{ bfgminer_user }}.{{ bfgminer_worker }}"
+        pass: "{{ bfgminer_password }}"
+      -
+        url: stratum+tcp://us.multipool.us:3362
+        user: "{{ bfgminer_user }}.{{ bfgminer_worker }}"
+        pass: "{{ bfgminer_password }}"
+        
+Pool configuration variable, you can replace these in your inventory file to update the server.        
+
 Example Playbook
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+1. Set appropriate variables before running the role!
+2. Make sure to set your account info.
 
     - hosts: servers
       roles:
