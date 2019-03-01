@@ -28,6 +28,14 @@
     recurse: true
 - include: compile_bfgminer.yml
   when: not bfgminer_check.stat.exists or bfgminer_repo.before != bfgminer_repo.after
+- name: create bfgminer systemctl service
+  template:
+    src: bfgminer.service.ini
+    dest: /lib/systemd/system/bfgminer.service
+    mode: 0755
+  notify:
+    - reload systemd
+    - restart bfgminer
 - name: install bfgminer template
   template:
     src: bfgminer.conf.ini

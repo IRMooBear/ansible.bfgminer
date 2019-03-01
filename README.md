@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/IRMooBear/pi_install_bfgminer.svg?branch=master)](https://travis-ci.com/IRMooBear/pi_install_bfgminer)
 
-Pi Install BFGMiner
+Install BFGMiner on RPI
 =========
 
 This role install a custom version of BFGMiner including the drivers for the Moonlander 2 ASIC USB miner.
@@ -16,7 +16,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: irmoobear.pi_install_bfgminer }
+         - { role: irmoobear.install_bfgminer }
 
 License
 -------

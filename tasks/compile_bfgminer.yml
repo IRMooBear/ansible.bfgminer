@@ -47,10 +47,3 @@
   shell: git submodule foreach --recursive git clean -xfd
   args:
     chdir: /usr/local/src/bfgminer
-- name: create bfgminer systemctl service
-  template:
-    src: bfgminer.service.ini
-    dest: /lib/systemd/system/bfgminer.service
-    mode: 0755
-  notify:
-    - reload systemd
