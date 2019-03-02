@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: bfgminer
   author: Anh Nguyen
   description: Build BFGMiner with FutureBit's driver for Moonlander2 Scrypt USB miner.
   company: N/A
