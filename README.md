@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IRMooBear/install_bfgminer.svg?branch=master)](https://travis-ci.com/IRMooBear/install_bfgminer)
+[![Build Status](https://travis-ci.com/IRMooBear/ansible.bfgminer.svg?branch=master)](https://travis-ci.com/IRMooBear/ansible.bfgminer)
 
 Install BFGMiner on RPI
 =========
