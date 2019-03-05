@@ -66,7 +66,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - { role: irmoobear.install_bfgminer }
+         - { role: irmoobear.bfgminer }
 
 License
 -------
