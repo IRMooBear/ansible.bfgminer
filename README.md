@@ -7,7 +7,10 @@ This role install a custom version of BFGMiner including the drivers for the Moo
 
 Dependencies
 ----------------
-This role pull my fork of BFGMiner.
+This role pull my fork of BFGMiner from https://github.com/IRMooBear/bfgminer.
+A fork from https://github.com/jstefanop/bfgminer.
+A fork from https://github.com/luke-jr/bfgminer.
+
 
 Variables
 ----------------
