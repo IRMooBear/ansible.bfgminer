@@ -34,7 +34,6 @@ Whether BFGMiner autostart on systemboot.
     
 Your miner user account name.    
     
-    
     bfgminer_worker: moonlander2
     
 Worker name.    
@@ -51,11 +50,11 @@ Git version with Moonlander driver to pull.
       -
         url: stratum+tcp://stratum.aikapool.com:7975
         user: "{{ bfgminer_user }}.{{ bfgminer_worker }}"
-        pass: "{{ bfgminer_password }}"
+        password: "{{ bfgminer_password }}"
       -
         url: stratum+tcp://us.multipool.us:3362
         user: "{{ bfgminer_user }}.{{ bfgminer_worker }}"
-        pass: "{{ bfgminer_password }}"
+        password: "{{ bfgminer_password }}"
         
 Pool configuration variable, you can replace these in your inventory file to update the server.        
 
@@ -63,6 +62,7 @@ Example Playbook
 ----------------
 1. Set appropriate variables before running the role!
 2. Make sure to set your account info.
+
 
     - hosts: servers
       roles:
