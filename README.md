@@ -28,6 +28,10 @@ Moonlander's clock setting, default to manufacturer default.
     
     bfgminer_autostart: no
     
+Configure USB options.  This option might be useful if you use other usb mining sticks and need to disable BFGMiner from scanning USB.
+
+    bfgminer_usb: ":0"  //This would disable USB scanning and only use Serial TTL    
+    
 Whether BFGMiner autostart on systemboot.    
     
     bfgminer_user: irmoobear
