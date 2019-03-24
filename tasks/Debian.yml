@@ -1,5 +1,6 @@
 ---
 - name: install bfgminer dependencies
+  become: yes
   apt:
     state: present
     name: [

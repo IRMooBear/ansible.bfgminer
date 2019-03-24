@@ -1,9 +1,11 @@
 ---
 # handlers file for pi_install_bfgminer
 - name: reload systemd
+  become: yes
   systemd:
     daemon_reload: yes
 - name: restart bfgminer
+  become: yes
   systemd:
     name: bfgminer
     state: "{{ 'restarted' if bfgminer_autostart else 'stopped' }}"

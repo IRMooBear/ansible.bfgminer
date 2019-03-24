@@ -8,6 +8,7 @@ bfgminer_user: irmoobear
 bfgminer_worker: moonlander2
 bfgminer_password: x
 bfgminer_version: Moonlander2-1.0.0
+bfgminer_path_exists: /dev/ttyUSB0
 bfgminer_pools:
   - url: stratum+tcp://stratum.aikapool.com:7975
     user: "{{ bfgminer_user }}.{{ bfgminer_worker }}"

@@ -5,6 +5,7 @@
     path: /usr/local/bin/bfgminer
   register: bfgminer_check
 - name: clone IRMooBear/bfgminer
+  become: yes
   git:
     repo: https://github.com/IRMooBear/bfgminer.git
     dest: /usr/local/src/bfgminer
@@ -18,6 +19,7 @@
   delay: 10
   until: not bfgminer_repo.failed
 - name: set user as owner of bfgminer
+  become: yes
   file:
     path: /usr/local/src/bfgminer
     owner: "{{ ansible_user }}"
@@ -25,6 +27,7 @@
 - import_tasks: compile_bfgminer.yml
   when: not bfgminer_check.stat.exists or bfgminer_repo.before != bfgminer_repo.after
 - name: create bfgminer systemctl service
+  become: yes
   template:
     src: bfgminer.service.ini
     dest: /lib/systemd/system/bfgminer.service
@@ -35,6 +38,7 @@
     - reload systemd
     - restart bfgminer
 - name: install bfgminer template
+  become: yes
   template:
     src: bfgminer.conf.ini
     dest: /etc/bfgminer.conf
@@ -44,6 +48,7 @@
   notify:
     - restart bfgminer
 - name: auto start bfgminer
+  become: yes
   systemd:
     name: bfgminer.service
     enabled: "{{ bfgminer_autostart }}"
